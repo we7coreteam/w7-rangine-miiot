@@ -1,9 +1,21 @@
 <?php
 
+/**
+ * WeEngine DevCenter System
+ *
+ * (c) We7Team 2019 <https://www.w7.cc>
+ *
+ * This is not a free software
+ * Using it under the license terms
+ * visited https://www.w7.cc for more details
+ */
+
 namespace W7\App\Controller\Oauth;
 
 use W7\App\Exception\HttpErrorException;
 use W7\App\Model\Entity\User;
+use W7\App\Model\Logic\OauthLogic;
+use W7\App\Model\Service\Oauth\Entities\UserEntity;
 use W7\Core\Controller\ControllerAbstract;
 use W7\Facade\Config;
 use W7\Facade\Context;
@@ -55,8 +67,35 @@ class AuthorizeController extends ControllerAbstract {
 			throw new HttpErrorException('Invalid user');
 		}
 
+		$request->session->set('user', [
+			'uid' => $userName->uid,
+			'group_id' => $userName->group_id,
+		]);
+
 		return 'success';
 	}
 
+	public function afterLogin(Request $request) {
+		$this->validate($request, [
+			'redirect_uri' => 'required',
+		]);
 
+		$sessionUser = $request->session->get('user');
+		if (empty($sessionUser)) {
+			throw new HttpErrorException('Invalid login user');
+		}
+		try {
+			$server = OauthLogic::instance()->getServer();
+
+			$authRequest = $server->validateAuthorizationRequest($request);
+			$userEntity = new UserEntity();
+			$userEntity->setIdentifier($sessionUser['uid']);
+			$authRequest->setUser($userEntity);
+			$authRequest->setAuthorizationApproved(true);
+
+			return $server->completeAuthorizationRequest($authRequest, $this->response());
+		} catch (\Exception $e) {
+			throw new HttpErrorException($e->getMessage());
+		}
+	}
 }
