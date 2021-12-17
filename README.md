@@ -27,7 +27,7 @@ key.private 私钥，通过 openssl genrsa -out private.key 2048 命令生成
 key.public 公钥，通过 openssl rsa -in private.key -pubout -out public.key 命令生成
 
 
-#小米Iot平台配置
+# 小米Iot平台配置
 
 账号授权URL： http://mydomain/oauth/authorize
 
