@@ -13,33 +13,24 @@
 
 使用前请先配置 config/common.php 下的相关信息。
 
-oauth.client_id 随机生成，将来填写到小米Iot平台
-
-oauth.client_secret 随机生成，将来填写到小米Iot平台
-
-oauth.redirect_uri 小米Iot平台回调地址，由平台生成，填写到项目中
+ - oauth.client_id 随机生成，将来填写到小米Iot平台
+ - oauth.client_secret 随机生成，将来填写到小米Iot平台
+ - oauth.redirect_uri 小米Iot平台回调地址，由平台生成，填写到项目中
 
 
-key.encrypt_key 加密串，随机生成，32位即可
-
-key.private 私钥，通过 openssl genrsa -out private.key 2048 命令生成
-
-key.public 公钥，通过 openssl rsa -in private.key -pubout -out public.key 命令生成
+ - key.encrypt_key 加密串，随机生成，32位即可
+ - key.private 私钥，通过 openssl genrsa -out private.key 2048 命令生成
+ - key.public 公钥，通过 openssl rsa -in private.key -pubout -out public.key 命令生成
 
 
 # 小米Iot平台配置
 
-账号授权URL： http://mydomain/oauth/authorize
-
-Client ID： common.php 中定义的 oauth.client_id
-
-Client Secret： common.php 中定义的 oauth.client_secret
-
-Access Token URL：http://mydomain/oauth/access-token/code
-
-Refresh URL：http://mydomain/oauth/access-token/refresh
-
-设备指令接受URL：
+ - 账号授权URL： http://mydomain/oauth/authorize
+ - Client ID： common.php 中定义的 oauth.client_id
+ - Client Secret： common.php 中定义的 oauth.client_secret
+ - Access Token URL：http://mydomain/oauth/access-token/code
+ - Refresh URL：http://mydomain/oauth/access-token/refresh
+ - 设备指令接受URL：
 
 
 # 教程
