@@ -35,9 +35,9 @@
 
 # 教程
 
- - 第一节 https://www.bilibili.com/video/BV1e34y167Y5/  <br /><br />创建项目，实现简单的Hell world程序
- - 第二节 https://www.bilibili.com/video/BV1FL4y1n7ne/  <br /><br />创建登录页和所需要的验证码
- - 第三节 https://www.bilibili.com/video/BV1Mi4y1o7vL/  <br /><br />通过数据库进一步验证用户名和密码
+ - 第一节 https://www.bilibili.com/video/BV1e34y167Y5/  <br />创建项目，实现简单的Hell world程序<br /><br />
+ - 第二节 https://www.bilibili.com/video/BV1FL4y1n7ne/  <br />创建登录页和所需要的验证码<br /><br />
+ - 第三节 https://www.bilibili.com/video/BV1Mi4y1o7vL/  <br />通过数据库进一步验证用户名和密码<br /><br />
  - 第四节  
  
 
