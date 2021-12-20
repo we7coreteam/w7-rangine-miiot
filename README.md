@@ -35,8 +35,7 @@
 
 # 教程
 
- - 第一节 https://www.bilibili.com/video/BV1e34y167Y5/
- 创建项目，实现简单的Hell world程序
+ - 第一节 https://www.bilibili.com/video/BV1e34y167Y5/ \\ 创建项目，实现简单的Hell world程序
  - 第二节 https://www.bilibili.com/video/BV1FL4y1n7ne/
  - 第三节 https://www.bilibili.com/video/BV1Mi4y1o7vL/
 
