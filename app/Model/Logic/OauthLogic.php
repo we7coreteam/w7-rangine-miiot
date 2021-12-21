@@ -50,16 +50,16 @@ class OauthLogic extends LogicAbstract {
 			new AuthCodeGrant(
 				new AuthCodeRepository(),
 				new RefreshTokenRepository(),
-				new \DateInterval('PT10M')
+				(new \DateInterval('PT10M')) // code 10分钟有效
 			),
-			new \DateInterval('PT1H')
+			new \DateInterval('PT1H') // 交换的 access token 1小时有效
 		);
 
 		$this->oauthServer->enableGrantType(
 			new RefreshTokenGrant(
-				new RefreshTokenRepository(),
+				new RefreshTokenRepository(), // 内部默认 refresh token 1月有效
 			),
-			new \DateInterval('PT1H')
+			new \DateInterval('PT1H') // 交换的 access token 1小时有效
 		);
 		return $this->oauthServer;
 	}
