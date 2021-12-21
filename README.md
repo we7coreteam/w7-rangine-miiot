@@ -18,7 +18,7 @@
  - oauth.redirect_uri 小米Iot平台回调地址，由平台生成，填写到项目中
 
 
- - key.encrypt_key 加密串，随机生成，32位即可
+ - key.encrypt_key 加密串，通过 php -r 'echo base64_encode(random_bytes(32)), PHP_EOL;' 命令生成
  - key.private 私钥，通过 openssl genrsa -out private.key 2048 命令生成
  - key.public 公钥，通过 openssl rsa -in private.key -pubout -out public.key 命令生成
 
