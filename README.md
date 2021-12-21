@@ -30,7 +30,7 @@
  - Client Secret： common.php 中定义的 oauth.client_secret
  - Access Token URL：http://mydomain/oauth/access-token/code
  - Refresh URL：http://mydomain/oauth/access-token/refresh
- - 设备指令接受URL：
+ - 设备指令接受URL：http://mydomain/miiot/api
 
 
 # 教程
