@@ -16,6 +16,7 @@ use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\CryptKey;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
 use League\OAuth2\Server\Grant\RefreshTokenGrant;
+use League\OAuth2\Server\ResourceServer;
 use W7\App\Model\Service\Oauth\Repositories\AccessTokenRepository;
 use W7\App\Model\Service\Oauth\Repositories\AuthCodeRepository;
 use W7\App\Model\Service\Oauth\Repositories\ClientRepository;
@@ -32,6 +33,11 @@ class OauthLogic extends LogicAbstract {
 	 * @var AuthorizationServer
 	 */
 	private $oauthServer;
+
+	/**
+	 * @var ResourceServer
+	 */
+	private $checkOauthServer;
 
 	public function getServer() {
 		if (!empty($this->oauthServer)) {
@@ -62,5 +68,18 @@ class OauthLogic extends LogicAbstract {
 			new \DateInterval('PT1H') // 交换的 access token 1小时有效
 		);
 		return $this->oauthServer;
+	}
+
+	public function getCheckOauthServer() {
+		if (!empty($this->checkOauthServer)) {
+			return $this->checkOauthServer;
+		}
+
+		$this->checkOauthServer = new ResourceServer(
+			new AccessTokenRepository(),
+			new CryptKey(Config::get('common.mi_iot.key.public')),
+		);
+
+		return $this->checkOauthServer;
 	}
 }
