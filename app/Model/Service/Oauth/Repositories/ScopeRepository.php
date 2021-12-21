@@ -14,13 +14,16 @@ namespace W7\App\Model\Service\Oauth\Repositories;
 
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
+use W7\App\Model\Service\Oauth\Entities\ScopeEntity;
 
 class ScopeRepository implements ScopeRepositoryInterface {
 	public function getScopeEntityByIdentifier($identifier) {
-		// TODO: Implement getScopeEntityByIdentifier() method.
+		$scope = new ScopeEntity();
+		$scope->setIdentifier($identifier);
+		return $scope;
 	}
 
 	public function finalizeScopes(array $scopes, $grantType, ClientEntityInterface $clientEntity, $userIdentifier = null) {
-		// TODO: Implement finalizeScopes() method.
+		return $scopes;
 	}
 }
