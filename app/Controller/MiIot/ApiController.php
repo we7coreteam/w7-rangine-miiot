@@ -7,6 +7,7 @@ use W7\Http\Message\Server\Request;
 
 class ApiController extends ControllerAbstract {
 	public function index(Request $request) {
+		print_r($request->getBodyParams());
 		return 'success';
 	}
 }
