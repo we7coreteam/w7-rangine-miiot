@@ -33,6 +33,15 @@
  - 设备指令接受URL：http://mydomain/miiot/api
 
 
+# 天猫精灵Iot平台配置
+
+ - 账号授权URL： http://mydomain/oauth/authorize
+ - Client ID： common.php 中定义的 oauth.client_id
+ - Client Secret： common.php 中定义的 oauth.client_secret
+ - Access Token URL：http://mydomain/oauth/access-token/code
+ - 设备指令接受URL：http://mydomain/aliiot/api
+
+
 # 教程
 
  - 第一节 https://www.bilibili.com/video/BV1e34y167Y5/  <br />创建项目，实现简单的Hell world程序<br /><br />
