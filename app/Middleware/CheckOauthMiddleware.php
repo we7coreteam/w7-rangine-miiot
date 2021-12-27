@@ -1,15 +1,5 @@
 <?php
 
-/**
- * WeEngine DevCenter System
- *
- * (c) We7Team 2019 <https://www.w7.cc>
- *
- * This is not a free software
- * Using it under the license terms
- * visited https://www.w7.cc for more details
- */
-
 namespace W7\App\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
@@ -27,13 +17,12 @@ class CheckOauthMiddleware extends MiddlewareAbstract {
 		}
 
 		$request = $request->withAddedHeader('Authorization', $accessToken);
+
 		try {
-			$oauthServer = OauthLogic::instance()->getCheckOauthServer();
-			$oauthServer->validateAuthenticatedRequest($request);
+			OauthLogic::instance()->getCheckOauthServer()->validateAuthenticatedRequest($request);
 		} catch (\Exception $e) {
 			throw new HttpErrorException('Invalid access token');
 		}
-		
 		return $handler->handle($request);
 	}
 }
