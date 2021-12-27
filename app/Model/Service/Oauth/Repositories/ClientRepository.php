@@ -13,30 +13,33 @@
 namespace W7\App\Model\Service\Oauth\Repositories;
 
 use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
+use W7\App\Model\Logic\OauthLogic;
 use W7\App\Model\Service\Oauth\Entities\ClientEntity;
-use W7\Facade\Config;
 
 class ClientRepository implements ClientRepositoryInterface {
 	public function getClientEntity($clientIdentifier) {
-		if ($clientIdentifier != Config::get('common.mi_iot.oauth.client_id')) {
+		$oauthConfig = OauthLogic::instance()->getConfigByClientId($clientIdentifier);
+		if ($clientIdentifier != $oauthConfig['oauth']['client_id']) {
 			throw new \RuntimeException('Invalid client id, only mi iot');
 		}
 
 		$client = new ClientEntity();
 		$client->setIdentifier($clientIdentifier);
-		$client->setName('miiot');
-		$client->setRedirectUri(Config::get('common.mi_iot.oauth.redirect_uri'));
+		$client->setName($oauthConfig['oauth']['name']);
+		$client->setRedirectUri($oauthConfig['oauth']['redirect_uri']);
 		$client->setConfidential();
 
 		return $client;
 	}
 
 	public function validateClient($clientIdentifier, $clientSecret, $grantType) {
-		if ($clientIdentifier != Config::get('common.mi_iot.oauth.client_id')) {
+		$oauthConfig = OauthLogic::instance()->getConfigByClientId($clientIdentifier);
+
+		if ($clientIdentifier != $oauthConfig['oauth']['client_id']) {
 			throw new \RuntimeException('Invalid client id, only mi iot');
 		}
 
-		if ($clientSecret != Config::get('common.mi_iot.oauth.client_secret')) {
+		if ($clientSecret != $oauthConfig['oauth']['client_secret']) {
 			throw new \RuntimeException('Invalid client id, only mi iot');
 		}
 

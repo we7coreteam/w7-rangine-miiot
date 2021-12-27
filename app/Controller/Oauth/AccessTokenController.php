@@ -10,16 +10,15 @@ use W7\Http\Message\Server\Request;
 class AccessTokenController extends ControllerAbstract {
 
 	/**
-	 * 用 code 交换 access token
+	 * 用 code 交换，和刷新 access token
 	 * @param Request $request
 	 */
 	public function code(Request $request) {
 		//
 		$this->validate($request, [
-			'grant_type' => 'required|in:authorization_code',
+			'grant_type' => 'required|in:authorization_code,refresh_token',
 			'client_id' => 'required',
 			'client_secret' => 'required',
-			'redirect_uri' => 'required',
 			'code' => 'required',
 		]);
 
@@ -35,6 +34,7 @@ class AccessTokenController extends ControllerAbstract {
 	/**
 	 * 用 refresh code 刷新 access token
 	 * @param Request $request
+	 * @deprecated
 	 */
 	public function refresh(Request $request) {
 		//

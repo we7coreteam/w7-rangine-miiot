@@ -12,12 +12,12 @@
 
 namespace W7\App\Controller\Oauth;
 
+use Illuminate\Support\Str;
 use W7\App\Exception\HttpErrorException;
 use W7\App\Model\Entity\User;
 use W7\App\Model\Logic\OauthLogic;
 use W7\App\Model\Service\Oauth\Entities\UserEntity;
 use W7\Core\Controller\ControllerAbstract;
-use W7\Facade\Config;
 use W7\Facade\Context;
 use W7\Facade\Validator;
 use W7\Http\Message\Server\Request;
@@ -42,8 +42,10 @@ class AuthorizeController extends ControllerAbstract {
 			'redirect_uri' => 'required',
 		]);
 
-		if ($request->query('client_id') != Config::get('common.mi_iot.oauth.client_id') ||
-			$request->query('redirect_uri') != Config::get('common.mi_iot.oauth.redirect_uri')) {
+		$oauthConfig = OauthLogic::instance()->getConfigByClientId($request->query('client_id'));
+
+		if ($request->query('client_id') != $oauthConfig['oauth']['client_id'] ||
+			$request->query('redirect_uri') != $oauthConfig['oauth']['redirect_uri']) {
 			//报错
 			throw new HttpErrorException('Invalid client_id');
 		}

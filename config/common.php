@@ -50,7 +50,13 @@ F14qSIECgYAvhXF2ZXQ5XJwH4dGCRj4t+GTdl2XT95sY5sLV9JZVX/F+YPFJ7EOx
 4SSHDff2pwiivuF3NgSvjCUeHplSFJ+oG5doH76ixNw/rZ6Xaz+37A==
 -----END RSA PRIVATE KEY-----
 PRIVATE,
-
+		]
+	],
+	'ali-iot' => [
+		'oauth' => [
+			'client_id' => 'wa540709022da4ce5c',
+			'client_secret' => 'pkp5qpnomD3w9dHdbGfgTRDBH7azxMshrsc8j419AyzLQV6TEwzuZrCq4TjFP3CG',
+			'redirect_uri' => 'https://open.bot.tmall.com/oauth/callback'
 		]
 	]
 ];

@@ -12,6 +12,7 @@
 
 namespace W7\App\Model\Logic;
 
+use Illuminate\Support\Str;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\CryptKey;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
@@ -25,6 +26,7 @@ use W7\App\Model\Service\Oauth\Repositories\ScopeRepository;
 use W7\Core\Database\LogicAbstract;
 use W7\Core\Helper\Traiter\InstanceTrait;
 use W7\Facade\Config;
+use W7\Facade\Context;
 
 class OauthLogic extends LogicAbstract {
 	use InstanceTrait;
@@ -77,9 +79,27 @@ class OauthLogic extends LogicAbstract {
 
 		$this->checkOauthServer = new ResourceServer(
 			new AccessTokenRepository(),
-			new CryptKey(Config::get('common.mi_iot.key.public')),
+			new CryptKey(Config::get('common.mi_iot.key.public'))
 		);
 
 		return $this->checkOauthServer;
+	}
+
+	public function getConfigByClientId($clientId) {
+		$postRedirectUri = Context::getRequest()->query('redirect_uri') ?? Context::getRequest()->post('redirect_uri');
+
+		$config = Config::get('common');
+		foreach ($config as $platform => $row) {
+			// https://open.bot.tmall.com/oauth/callback?skillId=85023&token=MTk4MTI3NDQ3QUZFSElORkRWUQ==
+			if ($row['oauth']['client_id'] == $clientId) {
+				if (Str::startsWith($postRedirectUri, $row['oauth']['redirect_uri'])) {
+					$row['oauth']['redirect_uri'] = $postRedirectUri;
+				}
+				$row['oauth']['name'] = $platform;
+				return $row;
+			}
+		}
+
+		throw new \RuntimeException('Invalid oauth client id');
 	}
 }
