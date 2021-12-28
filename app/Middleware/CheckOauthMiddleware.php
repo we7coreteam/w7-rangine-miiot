@@ -19,7 +19,7 @@ class CheckOauthMiddleware extends MiddlewareAbstract {
 		$request = $request->withAddedHeader('Authorization', $accessToken);
 
 		try {
-			OauthLogic::instance()->getCheckOauthServer()->validateAuthenticatedRequest($request);
+			$request = OauthLogic::instance()->getCheckOauthServer()->validateAuthenticatedRequest($request);
 		} catch (\Exception $e) {
 			throw new HttpErrorException('Invalid access token');
 		}

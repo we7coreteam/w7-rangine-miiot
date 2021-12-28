@@ -5,6 +5,7 @@ namespace W7\App\Controller\Util;
 use Gregwar\Captcha\CaptchaBuilder;
 use Gregwar\Captcha\PhraseBuilder;
 use W7\Core\Controller\ControllerAbstract;
+use W7\Facade\Logger;
 use W7\Http\Message\Server\Request;
 
 class CaptchaController extends ControllerAbstract {
@@ -23,6 +24,7 @@ class CaptchaController extends ControllerAbstract {
 		$captchaCode = $builder->getPhrase();
 		$request->session->set('img_code', strtolower($captchaCode));
 
+		Logger::debug('img_code: ', [$captchaCode]);
 		return [
 			'img' => $builder->inline()
 		];

@@ -19,5 +19,7 @@ class MiIotLogic extends LogicAbstract {
 	use InstanceTrait;
 
 	const EVENT_NAME_GET_DEVICES = 'get-devices';
+	const EVENT_NAME_GET_PROPERTIES = 'get-properties';
+
 
 }
