@@ -19,7 +19,8 @@ class AccessTokenController extends ControllerAbstract {
 			'grant_type' => 'required|in:authorization_code,refresh_token',
 			'client_id' => 'required',
 			'client_secret' => 'required',
-			'code' => 'required',
+			'code' => 'required_without:refresh_token',
+			'refresh_token' => 'required_without:code',
 		]);
 
 		try {
