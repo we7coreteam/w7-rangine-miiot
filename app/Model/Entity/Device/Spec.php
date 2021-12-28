@@ -14,4 +14,16 @@ class Spec extends ModelAbstract {
 	protected $primaryKey = 'id';
 	protected $fillable = ['device_id', 'service_id', 'spec_id', 'name', 'value', 'description', 'format', 'access_read', 'access_write', 'access_notify'];
 	public $timestamps = false;
+
+	public function getFormatValueAttribute() {
+		if ($this->format == self::FORMAT_STRING) {
+			return strval($this->value);
+		}
+		if ($this->format == self::FORMAT_BOOL) {
+			return intval($this->value);
+		}
+		if ($this->format == self::FORMAT_INT) {
+			return intval($this->value);
+		}
+	}
 }

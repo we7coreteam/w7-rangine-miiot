@@ -27,6 +27,8 @@ class ApiController extends ControllerAbstract {
 				return array_merge([], $message, $this->doGetDevices($request));
 			case MiIotLogic::EVENT_NAME_GET_PROPERTIES:
 				return array_merge([], $message, $this->doGetProperties($request, $message));
+			case MiIotLogic::EVENT_NAME_SET_PROPERTIES:
+				return array_merge([], $message, $this->doSetProperties($request, $message));
 			default:
 				return 'success';
 		}
@@ -48,7 +50,7 @@ class ApiController extends ControllerAbstract {
 		$deviceList->each(function ($row, $key) use (&$result) {
 			$result['devices'][] = [
 				'name' => $row['name'],
-				'did' => sprintf('%s%s%s', $row['uid'], $row['platform'], $row['id']),
+				'did' => sprintf('%s-%s-%s', $row['uid'], $row['platform'], $row['id']),
 				'type' => $row['type'],
 			];
 		});
@@ -65,9 +67,52 @@ class ApiController extends ControllerAbstract {
 			return $result;
 		}
 
-		$search = [];
 		foreach ($message['properties'] as $key => $row) {
+			$result['properties'][$key] = [
+				'did' => $row['did'],
+				'siid' => $row['siid'],
+				'piid' => $row['piid'],
+				'status' => 0,
+			];
 
+			$otherSpec = DeviceLogic::instance()->getDeviceSpecByDeviceIdServiceIdSpecId(explode('-', $row['did'])[2], $row['siid'], $row['piid']);
+
+			if (!empty($otherSpec)) {
+				$result['properties'][$key]['value'] = $otherSpec->formatValue;
+			}
+		}
+
+		return $result;
+	}
+
+	protected function doSetProperties(Request &$request, &$message) {
+		$result = [
+			'properties' => []
+		];
+
+		if (empty($message['properties'])) {
+			return $result;
+		}
+
+		foreach ($message['properties'] as $key => $row) {
+			$result['properties'][$key] = [
+				'did' => $row['did'],
+				'siid' => $row['siid'],
+				'piid' => $row['piid'],
+			];
+
+			$otherSpec = DeviceLogic::instance()->getDeviceSpecByDeviceIdServiceIdSpecId(explode('-', $row['did'])[2], $row['siid'], $row['piid']);
+
+			if (!empty($otherSpec)) {
+				$otherSpec->value = $row['value'];
+				$otherSpec->save();
+				$result['properties'][$key]['status'] = 0;
+			} else {
+				$result['properties'][$key]['status'] = -1;
+				$result['properties'][$key]['description'] = '属性不存在，写入失败';
+			}
+
+			return $result;
 		}
 	}
 }

@@ -19,6 +19,7 @@ use W7\Core\Helper\Traiter\InstanceTrait;
 
 class DeviceLogic extends LogicAbstract {
 	use InstanceTrait;
+	private $devices = [];
 
 	public function getFormatByString($name) {
 		$formatString = [
@@ -35,7 +36,24 @@ class DeviceLogic extends LogicAbstract {
 		return Device::query()->where('uid', '=', $uid)->get();
 	}
 
-	public function getDeviceSpecByDeviceId($deviceId) {
-		return Spec::query()->where('device_id', '=', $deviceId)->get();
+	public function getDeviceSpecListByDeviceId($deviceId) {
+		if (!empty($this->devices[$deviceId])) {
+			return $this->devices[$deviceId];
+		}
+		$this->devices[$deviceId] = Spec::query()->where('device_id', '=', $deviceId)->get();
+		return $this->devices[$deviceId];
+	}
+
+	public function getDeviceSpecByDeviceIdServiceIdSpecId($deviceId, $serviceId, $specId) {
+		$deviceSpec = $this->getDeviceSpecListByDeviceId($deviceId);
+		if (empty($deviceSpec)) {
+			return [];
+		}
+		foreach ($deviceSpec as $row) {
+			if ($row->service_id == $serviceId && $row->spec_id == $specId) {
+				return $row;
+			}
+		}
+		return [];
 	}
 }
