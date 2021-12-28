@@ -70,7 +70,7 @@ class AuthorizeController extends ControllerAbstract {
 		}
 
 		$request->session->set('user', [
-			'uid' => $userName->uid,
+			'uid' => $userName->id,
 			'group_id' => $userName->group_id,
 		]);
 
